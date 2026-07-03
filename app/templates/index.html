@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+</head>
+<body>
+
+    <header>
+        <h1>YouTube Downloader</h1>
+    </header>
+
+    <div class = "divPesquisa">
+        <form id="formularioPesquisa" action="/" method="get">
+            <label for="pesquisa">Digite o título ou link desejado: </label>
+            <input id="pesquisa" name="pesquisa" type="text" placeholder="musicas do momento..."> 
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+
+    <div>
+        <p>Sua Pesquisa: {{ pesquisa }}</p>
+
+        <p>Resultados: </p>
+
+        {% for video in listaVideos %}
+
+        <div>
+            <h4>{{ video.titulo }}</h4>
+            <p>{{ video.canal }}</p>
+            <p>{{ video.duracao }}</p>
+        </div>
+        
+        {% endfor %}
+    </div>
+
+</body>
+</html>
