@@ -50,6 +50,9 @@ o código é responsável pela lógica da aplicação (como retornar "Olá, mund
 - pip freeze > requirements.txt
 - uvicorn app.main:application --reload // está criando o servidor http para que possa ser acessado via navegador
 
+- git remote add origin https://github.com/JoaoVictor9805/YouTubeVideoSearcher.git
+- git branch -M main
+- git push -u origin main
 
 # Respostas importantes aos comandos:
 
