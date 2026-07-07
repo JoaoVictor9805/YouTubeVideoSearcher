@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Downloader</title>
+    <title>Searcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='index.css') }}">
 </head>
 <body>
 
@@ -14,26 +15,57 @@
     <div class = "divPesquisa">
         <form id="formularioPesquisa" action="/" method="get">
             <label for="pesquisa">Digite o título ou link desejado: </label>
-            <input id="pesquisa" name="pesquisa" type="text" placeholder="musicas do momento..."> 
+            <input id="pesquisa" name="pesquisa" type="text" placeholder="musicas do momento..." value="{{ pesquisa }}"> 
             <button type="submit">Pesquisar</button>
         </form>
     </div>
 
     <div>
-        <p>Sua Pesquisa: {{ pesquisa }}</p>
+            <div class="resultados-container">
 
-        <p>Resultados: </p>
+                <p>Resultados: </p>
 
-        {% for video in listaVideos %}
+            </div>
 
-        <div>
-            <h4>{{ video.titulo }}</h4>
-            <p>{{ video.canal }}</p>
-            <p>{{ video.duracao }}</p>
+            {% for video in listaVideos %}
+
+            <div class="video-card">
+                <img src="{{ video.thumb }}">
+
+                <div class="info-container">
+                    <h4>{{ video.titulo }}</h4>
+                    <p>{{ video.canal }}</p>
+                    
+                    <div class="btn-container">
+                        <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank"> Assistir </a>
+                        <button class="btnCopiar" data-link="https://www.youtube.com/watch?v={{ video.video_id }}" onclick="copiarLink(this)"> Copiar Link </button>
+                        <a href="/download/{{ video.video_id }}"> Baixar </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
         {% endfor %}
+
     </div>
 
 </body>
+
 </html>
+
+<script>
+    function copiarLink(botao) {
+        const urlParaCopiar = botao.getAttribute("data-link");
+
+        navigator.clipboard.writeText(urlParaCopiar).then(() => {
+            const textoOriginal = botao.innerText;
+            botao.innerText = "Copiado!";
+
+            setTimeout(() => {
+                botao.innerText = textoOriginal;
+            }, 2000);
+        }).catch(err => {
+            console.error('Falha ao copiar: ', err);
+        });
+    }
+</script>

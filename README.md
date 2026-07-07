@@ -57,3 +57,5 @@ o código é responsável pela lógica da aplicação (como retornar "Olá, mund
 # Respostas importantes aos comandos:
 
 - Uvicorn running on http://127.0.0.1:8000
+
+- 
