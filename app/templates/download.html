@@ -1,11 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donwload</title>
-</head>
-<body>
-    <p>Página futura de downloads</p>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Download</title>
+        <link rel="stylesheet" href="{{ url_for('static', path='download.css')}}">
+    </head>
+
+    <body>
+        <div class="item-card">
+
+            <br><a href="{{ url_for('index') }}">Retornar</a><br><br>
+
+            <div class="video-card-download">
+                {% if erro %} 
+                    <p>{{ erro }}</p>
+
+                {% else %}
+                    <img src="{{ video.thumb }}">
+
+                    <div class="info-container">
+                        <h4>{{ video.titulo }}</h4>
+                        <p>{{ video.canal }}</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <br>
+            <hr>
+
+            <div class="download-info">
+                <h4>Selecione o Tipo do download desejado: </h4>
+
+                <input type="radio" id="video" name="format" value="video">
+                <label for="video"> Vídeo </label>
+
+                <input type="radio" id="audio" name="format" value="audio">
+                <label for="audio"> Áudio </label>
+                
+                <br><br>
+
+                <div class="form-video" id="form-video" style="display: none;">
+                    <form id="formularioDownload" action="/download/{{ video.video_id }}" method="post" >
+                       <label for="video_format"> Selecione o formato: </label>
+
+                        <select name="video_format" id="video_format" onchange="atualizarInfo()">
+                            {% for extensao in formatosDisponiveis["videos"] %}
+                            <option value="{{ extensao }}"> {{ extensao }} </option>
+                            {% endfor %}
+                        </select>
+
+                        <br><br>
+
+                        <label for="video_quality"> Selecione a qualidade: </label>
+
+                        <select name="video_quality" id="video_quality"></select>
+
+                        <br><br><button type="submit"> Baixar </button>
+                    </form>
+                </div>
+
+                <div class="form-audio" id="form-audio" style="display: none;">
+                    <form id="formularioDownload" action="/download/{{ video.video_id }}" method="post" >
+                       <label for="audio_format"> Selecione o formato: </label>
+
+                        <select name="audio_format" id="audio_format" onchange="atualizarInfo()">
+                            <option value="mp3"> mp3 </option>
+                            {% for extensao in formatosDisponiveis["audios"] %}
+                            <option value="{{ extensao }}"> {{ extensao }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <br><br>
+                        
+                        <label for="audio_quality"> Selecione a qualidade: </label>
+
+                        <select name="audio_quality" id="audio_quality"></select>
+
+                        <br><br><button type="submit"> Baixar </button>
+                    </form>
+                </div>
+
+            </div>
+            
+        </div>
+    </body>
 </html>
+
+<script> 
+   function alterarVisibilidade() {
+        const radioVideo = document.getElementById("video");
+        const formVideo = document.getElementById("form-video");
+
+        const radioAudio = document.getElementById("audio");
+        const formAudio = document.getElementById("form-audio");
+
+        atualizarInfo();
+
+        if (radioVideo.checked) {
+            formVideo.style.display = "block";
+            formAudio.style.display = "none";
+
+        } else if (radioAudio.checked) {
+            formAudio.style.display = "block";
+            formVideo.style.display = "none";
+
+        } else {
+            formVideo.style.display = "none";
+            formAudio.style.display = "none";
+
+        }
+    }
+
+    // Selecionamos todos os radios com o mesmo nome para monitorar as mudanças
+    const midiaFormat = document.querySelectorAll('input[name="format"]');
+    
+    midiaFormat.forEach(radio => {
+        radio.addEventListener('change', alterarVisibilidade);
+    });
+
+
+    const formatos = {{ formatosDisponiveis | tojson }};
+
+    function verificarRadio() {
+        const radioSelecionado = document.querySelector('input[name="format"]:checked').value;
+        return radioSelecionado
+    }
+    function carregarInfo() {       
+        if (verificarRadio() == "video") {
+            const formatoSelecionado = document.getElementById("video_format").value;
+            return formatos["videos"][formatoSelecionado];
+        } else {
+            const formatoSelecionado = document.getElementById("audio_format").value;
+
+            if (formatoSelecionado == "mp3") {
+                return formatos["audios"]["m4a"];
+            } else {
+                return formatos["audios"][formatoSelecionado];
+            }
+        }
+    } 
+
+function atualizarInfo() {
+    const listaInfo = carregarInfo();
+
+    if (verificarRadio() == "video") {
+        const selectQualidade = document.getElementById("video_quality");
+
+        selectQualidade.innerHTML = "";
+
+        for (const info of listaInfo) {
+            const option = document.createElement("option");
+
+            option.value = info.format_id;
+            option.textContent = info.height + "p";
+
+            selectQualidade.appendChild(option);
+        }
+
+    } else {
+        const selectQualidade = document.getElementById("audio_quality");
+        const formatoSelecionado = document.getElementById("audio_format").value;
+
+        selectQualidade.innerHTML = "";
+
+        // Se for MP3, mostra apenas uma opção fixa
+        if (formatoSelecionado == "mp3") {
+            const option = document.createElement("option");
+
+            option.value = listaInfo[0].format_id;
+            option.textContent = "320 kbps";
+
+            selectQualidade.appendChild(option);
+
+            return;
+        }
+
+        // Para os demais formatos, usa as informações vindas do backend
+        for (const info of listaInfo) {
+            const option = document.createElement("option");
+
+            option.value = info.format_id;
+            option.textContent = info.abr + " kbps";
+
+            selectQualidade.appendChild(option);
+        }
+    }
+}
+</script>

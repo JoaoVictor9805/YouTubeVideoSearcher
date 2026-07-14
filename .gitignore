@@ -14,3 +14,12 @@ Thumbs.db
 
 # Arquivo de variáveis sensíveis (API key, senha etc.)
 .env
+
+# Arquivo de cookies do youtube
+cookies.txt
+
+# Pasta onde são baixados os vídeos e áudios
+downloads
+
+# Estudos durante o projeto
+estudos
