@@ -8,7 +8,29 @@ O projeto foi desenvolvido com foco em praticar conceitos de desenvolvimento web
 
 ## 📸 Demonstração
 
-> *Adicione aqui um GIF ou algumas capturas de tela da aplicação.*
+**Tela inicial — pesquisa e resultados**
+
+Exibição dos resultados de uma pesquisa, com miniatura, título e canal de cada vídeo, além dos botões para assistir, copiar link ou baixar.
+
+![Tela inicial com resultados de pesquisa](capturas_de_tela/telaInicioYT.png)
+
+**Tela de download**
+
+Ao selecionar um vídeo, o usuário escolhe entre baixar vídeo ou áudio, define o formato e a qualidade desejados.
+
+![Tela de download do vídeo selecionado](capturas_de_tela/telaBaixarYT.png)
+
+**Seleção de qualidade**
+
+Detalhe do seletor de qualidade, com as resoluções disponíveis detectadas automaticamente pelo yt-dlp.
+
+![Detalhe do seletor de qualidade do download](capturas_de_tela/focoDownloadYT.png)
+
+**Prova de funcionamento**
+
+Vídeo baixado sendo reproduzido normalmente, confirmando que o download foi concluído com sucesso.
+
+![Vídeo baixado sendo reproduzido](capturas_de_tela/provaDeDownloadYT.png)
 
 ---
 
