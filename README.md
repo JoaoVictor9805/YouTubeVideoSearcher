@@ -240,3 +240,9 @@ Durante o desenvolvimento deste projeto foi possível aprofundar conhecimentos e
 ## 📄 Licença
 
 Este projeto foi desenvolvido para fins de estudo e aprendizado.
+
+---
+
+## 🤖 Uso de inteligência artificial
+
+O uso de inteligência artificial foi realizado para auxiliar no desenvolvimento do projeto. Muitas vezes construindo código, documentação ou replicação de código já existente para poupar trabalho manual. Os códigos produzidos foram revisados e analisados pelo desenvolvedor, na busca de validar sua qualidade. Os principais modelos de inteligência artificial utilizados foram: Claude AI e Chat GPT.
